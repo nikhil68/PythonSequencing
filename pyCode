@@ -1,0 +1,21 @@
+import pandas as pd
+filePath = "nbp.csv"
+
+f = pd.read_csv(filePath)
+f = f.drop(columns=["CUSTID"])
+data = f.T.to_dict()     #convert to dictionary
+
+#f = pd.read_csv(filePath) 
+
+outputs = []   #creating an empty output column
+
+for each in list(data.values()):
+    each = sorted(each.items(), key = lambda kv:(kv[1], kv[0]))
+    output = []
+    for i in each:
+        output.append(str(i[0]))
+    outputs.append("|".join(output))
+
+f["OUTPUT"] = outputs         #new column to store the target profile
+
+#f.to_csv(r'target.csv',index=False)  #save this file to a csv,removing the index column
